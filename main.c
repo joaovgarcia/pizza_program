@@ -23,7 +23,7 @@ typedef struct pizza{
 void selecionaTamanho();
 void selecionaSabor();
 void calculaValor();
-void mostraPedido(int sabor, int tamanho);
+void mostraPedido(int sabor, int tamanho, float valor);
 void novoPedido();
 void Pedido();
 
@@ -34,8 +34,8 @@ int main(){
   printf("------ Bem vindo ao Pizza Program! ------\n\n");
 
   Pedido();
-  
-  mostraPedido(pedido.SABOR, pedido.TAMANHO);
+
+  mostraPedido(pedido.SABOR, pedido.TAMANHO, pedido.valor);
   
   novoPedido();
 
@@ -47,8 +47,47 @@ void Pedido(){
 
   selecionaSabor();
 
+  calculaValor();
+
 }
 
+void calculaValor(){
+  
+  float valorTotal = 0;
+
+  if(pedido.TAMANHO == pequena) {
+    valorTotal+=24.59;
+  }else if (pedido.TAMANHO == media) {
+    valorTotal+=35.30;
+  }else{
+    valorTotal+=39.19;
+  }
+
+  switch(pedido.SABOR){
+
+    case 0:
+      valorTotal+=5.79;
+      break;
+    case 1:
+      valorTotal+=7.49;
+      break;
+    case 2:
+      valorTotal+=4.00;
+      break;
+    case 3:
+      valorTotal+=8.50;
+      break;
+    case 4:
+      valorTotal+=11.69;
+      break;
+    default:
+      printf("Isso não era pra ter acontecido!\n");
+      return;
+  }
+
+  pedido.valor = valorTotal;
+
+}
 
 void novoPedido(){
 
@@ -67,12 +106,12 @@ void novoPedido(){
 
 }
 
-void mostraPedido(int sabor, int tamanho){
+void mostraPedido(int sabor, int tamanho, float valor){
   char* enum_tamanho[3] = {"pequena", "media", "grande"};
   char* enum_sabor[5] = {"Tradicional", "Calabresa", "Tomate Seco Rúcula", "Quatro queijos", "Filé mingnon"};
 
 
-  printf("Pizza %s sabor %s.\n",enum_tamanho[tamanho], enum_sabor[sabor]);
+  printf("Pizza %s sabor %s.\nTOTAL: %.2f\n\n",enum_tamanho[tamanho], enum_sabor[sabor], pedido.valor);
 
 }
 
