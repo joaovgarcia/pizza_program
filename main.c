@@ -1,4 +1,7 @@
+#include <string.h>
 #include <stdio.h>
+
+
 
 typedef enum tamanhopizza{
   pequena,
@@ -15,19 +18,31 @@ typedef enum sabores{
 }SABOR;
 
 typedef struct pizza{
-  int SABOR;
-  int TAMANHO;
-  float valor;
+  SABOR sabor;
+  TAMANHO tamanho;
+  float valorPizza;
 }PIZZA;
+
+typedef struct pedido{
+ 
+  char pedidoInfo[99];
+  PIZZA pizza;
+  float valorPedido;
+  int numeroDoPedido;
+
+}PEDIDO;
 
 void selecionaTamanho();
 void selecionaSabor();
 void calculaValor();
-void mostraPedido(int sabor, int tamanho, float valor);
+char* mostraPedido(PEDIDO* pedido);
 void novoPedido();
+void adicionaPedido();
+void listarPedidos();
 void Pedido();
 
-PIZZA pedido;
+PEDIDO listaDePedidos[99];
+PEDIDO pedido;
 
 int main(){
   
@@ -35,9 +50,9 @@ int main(){
 
   Pedido();
 
-  mostraPedido(pedido.SABOR, pedido.TAMANHO, pedido.valor);
-  
   novoPedido();
+
+  return 0;
 
 }
 
@@ -49,21 +64,64 @@ void Pedido(){
 
   calculaValor();
 
+  adicionaPedido();
+
+  listarPedidos();
+
+    
 }
+
+void adicionaPedido(){
+  
+  for(int i = pedido.numeroDoPedido; i <= pedido.numeroDoPedido; i++){
+    listaDePedidos[i] = pedido;
+    break;
+  }
+
+  pedido.numeroDoPedido++;
+  printf("Seu pedido foi adicionado com sucesso!\n");
+
+}
+
+void listarPedidos(){
+
+ 
+  for(int i = 0; i < pedido.numeroDoPedido; i++){
+    printf("Pedido: %s\n", mostraPedido(&listaDePedidos[i]));
+  }
+}
+
+char* mostraPedido(PEDIDO* pedido){
+  char* enum_tamanho[3] = {"pequena", "media", "grande"};
+  char* enum_sabor[5] = {"Tradicional", "Calabresa", "Tomate Seco Rúcula", "Quatro queijos", "Filé mingnon"};
+
+
+ /*printf("Pedido numero: %d - Pizza %s sabor %s.\nTOTAL: %.2f\n\n",
+         pedido.numeroDoPedido+1, enum_tamanho[pedido.pizza.tamanho], enum_sabor[pedido.pizza.sabor], pedido.valorPedido);*/
+  
+  
+  snprintf(pedido->pedidoInfo, sizeof(pedido->pedidoInfo),
+           "Pizza %s sabor %s\nValor: %.2f",
+           enum_tamanho[pedido->pizza.tamanho], enum_sabor[pedido->pizza.sabor], pedido->valorPedido);
+
+  return pedido->pedidoInfo;
+
+}
+
 
 void calculaValor(){
   
   float valorTotal = 0;
 
-  if(pedido.TAMANHO == pequena) {
+  if(pedido.pizza.tamanho == pequena) {
     valorTotal+=24.59;
-  }else if (pedido.TAMANHO == media) {
+  }else if (pedido.pizza.tamanho == media) {
     valorTotal+=35.30;
   }else{
     valorTotal+=39.19;
   }
 
-  switch(pedido.SABOR){
+  switch(pedido.pizza.sabor){
 
     case 0:
       valorTotal+=5.79;
@@ -85,9 +143,10 @@ void calculaValor(){
       return;
   }
 
-  pedido.valor = valorTotal;
+  pedido.valorPedido = valorTotal;
 
 }
+
 
 void novoPedido(){
 
@@ -106,15 +165,6 @@ void novoPedido(){
 
 }
 
-void mostraPedido(int sabor, int tamanho, float valor){
-  char* enum_tamanho[3] = {"pequena", "media", "grande"};
-  char* enum_sabor[5] = {"Tradicional", "Calabresa", "Tomate Seco Rúcula", "Quatro queijos", "Filé mingnon"};
-
-
-  printf("Pizza %s sabor %s.\nTOTAL: %.2f\n\n",enum_tamanho[tamanho], enum_sabor[sabor], pedido.valor);
-
-}
-
 void selecionaTamanho(){
 
   printf("Sabemos que veio atrás de pizza, então qual tamanho deseja?\n");
@@ -128,15 +178,15 @@ void selecionaTamanho(){
 
     switch(tamanho){
       case 'p':
-        pedido.TAMANHO = pequena;
+        pedido.pizza.tamanho = pequena;
         break;
 
       case 'm':
-        pedido.TAMANHO = media;
+        pedido.pizza.tamanho = media;
         break;
 
       case 'g':
-        pedido.TAMANHO = grande;
+        pedido.pizza.tamanho = grande;
         break;
     
       default:
@@ -161,19 +211,19 @@ void selecionaSabor(){
 
     switch(opcao){
       case '1':
-        pedido.SABOR = tradicional;
+        pedido.pizza.sabor = tradicional;
         break;
       case '2':
-        pedido.SABOR = calabresa;
+        pedido.pizza.sabor = calabresa;
         break;
       case '3':
-        pedido.SABOR = tomate_seco_rucula;
+        pedido.pizza.sabor = tomate_seco_rucula;
         break;
      case '4':
-        pedido.SABOR = quatro_queijos;
+        pedido.pizza.sabor = quatro_queijos;
         break;
       case '5':
-        pedido.SABOR = file_mingnon;
+        pedido.pizza.sabor = file_mingnon;
         break;
       default:
         printf("Selecione um sabor!\n");
@@ -184,3 +234,5 @@ void selecionaSabor(){
   }while(opcao == 0);
 
 }
+
+
