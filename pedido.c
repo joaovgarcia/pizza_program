@@ -1,25 +1,22 @@
 #include "pedido.h"
 #include <stdio.h>
 
-PEDIDO listaDePedidos[99];
-PEDIDO pedido;
-
-void adicionaPedido(){
+void adicionaPedido(PEDIDO* pedido, PEDIDO* listaDePedidos){
   
-  for(int i = pedido.numeroDoPedido; i <= pedido.numeroDoPedido; i++){
-    listaDePedidos[i] = pedido;
-    break;
+  for(int i = pedido->numeroDoPedido; i <= pedido->numeroDoPedido; i++){
+    listaDePedidos[i] = *pedido;
+    continue;
   }
 
-  pedido.numeroDoPedido++;
+  pedido->numeroDoPedido++;
   printf("Seu pedido foi adicionado com sucesso!\n");
 
 }
 
-void listarPedidos(){
+void listarPedidos(PEDIDO* pedido, PEDIDO* listaDePedidos){
 
  
-  for(int i = 0; i < pedido.numeroDoPedido; i++){
+  for(int i = 0; i < pedido->numeroDoPedido; i++){
     printf("Pedido: %s\n", mostraPedido(&listaDePedidos[i]));
   }
 }
@@ -37,20 +34,19 @@ char* mostraPedido(PEDIDO* pedido){
 
 }
 
-
-void calculaValor(){
+void calculaValor(PEDIDO* pedido){
   
   float valorTotal = 0;
 
-  if(pedido.pizza.tamanho == pequena) {
+  if(pedido->pizza.tamanho == pequena) {
     valorTotal+=24.59;
-  }else if (pedido.pizza.tamanho == media) {
+  }else if (pedido->pizza.tamanho == media) {
     valorTotal+=35.30;
   }else{
     valorTotal+=39.19;
   }
 
-  switch(pedido.pizza.sabor){
+  switch(pedido->pizza.sabor){
 
     case 0:
       valorTotal+=5.79;
@@ -72,102 +68,45 @@ void calculaValor(){
       return;
   }
 
-  pedido.valorPedido = valorTotal;
+  pedido->valorPedido = valorTotal;
 
 }
 
-
-void novoPedido(){
-
-  printf("Deseja fazer um novo pedido?\n\n");
-  printf("Aperte (s) para pedir novamente. Ou aperte (x) para finalizar: ");
-
-  char novopedido;
-  scanf(" %c", &novopedido);
-  switch (novopedido) {
-    case 's':
-      Pedido();
-      break;
-    case 'x':
-      break;
-  }
-
-}
-
-void selecionaTamanho(){
-
-  printf("Sabemos que veio atrás de pizza, então qual tamanho deseja?\n");
-  printf("P - Aperte (p) para pequena\nM - Aperte (m) para media\nG - Aperte (g) para grande\n\n");
-
-  char tamanho;
+void PedirPizza(PIZZA* pizza){
   
-  do{
-
-  scanf(" %c", &tamanho);
-
-    switch(tamanho){
-      case 'p':
-        pedido.pizza.tamanho = pequena;
-        break;
-
-      case 'm':
-        pedido.pizza.tamanho = media;
-        break;
-
-      case 'g':
-        pedido.pizza.tamanho = grande;
-        break;
-    
-      default:
-       printf("Escolha uma opção\n");
-       break;
-    }
-
-  } while(tamanho != 'p' && tamanho != 'm' && tamanho != 'g');
-
+  selecionaTamanho(pizza);
+  selecionaSabor(pizza);
 }
 
-void selecionaSabor(){
-
-  printf("E sua pizza vai ser de quê?\n");
-  printf("1 - Tradicional\n2 - Calabresa\n3 - Tomate seco e rúcula\n4 - Quatro queijos\n5 - Filé mingnon\n\n");
-
-  char opcao;
+void menu(PEDIDO* pedido, PEDIDO* listaDePedidos){
+  
+  printf("------ Bem vindo ao Pizza Program! ------\n\n");
+  
+  char continuar;
+  
 
   do{
+    
+    printf("O que deseja fazer agora?\n");
+    printf("1 - Para pedir pizza.\n2 - Para listar pedidos.\n");
+    scanf(" %c", &continuar);
 
-    scanf(" %c", &opcao);
-
-    switch(opcao){
+    switch(continuar){
       case '1':
-        pedido.pizza.sabor = tradicional;
+        PedirPizza(&pedido->pizza);
+        calculaValor(pedido);
+        adicionaPedido(pedido, listaDePedidos);
         break;
       case '2':
-        pedido.pizza.sabor = calabresa;
+        listarPedidos(pedido, listaDePedidos);
         break;
-      case '3':
-        pedido.pizza.sabor = tomate_seco_rucula;
-        break;
-     case '4':
-        pedido.pizza.sabor = quatro_queijos;
-        break;
-      case '5':
-        pedido.pizza.sabor = file_mingnon;
+      case 'x':
         break;
       default:
-        printf("Selecione um sabor!\n");
-        opcao = 0;
-        break;      
-      }
+        printf("Escolha uma opção!");
+        break;
+    }
 
-  }while(opcao == 0);
+  }while(continuar != 'x');
 
-}
-
-void Pedido(){
-  selecionaTamanho();
-  selecionaSabor();
-  calculaValor();
-  adicionaPedido();
-  listarPedidos();
 }

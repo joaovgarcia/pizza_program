@@ -1,41 +1,20 @@
+#include "pizza.h"
 #include <stdio.h>
 
-typedef enum tamanhopizza{
-  pequena,
-  media,
-  grande
-}TAMANHO;
-
-typedef enum sabores{
-  tradicional,
-  calabresa,
-  tomate_seco_rucula,
-  quatro_queijos,
-  file_mingnon
-}SABOR;
-
-typedef struct pizza{
-  SABOR sabor;
-  TAMANHO tamanho;
-  float valorPizza;
-}PIZZA;
+#define LIST_SIZE 999
 
 typedef struct pedido{
  
-  char pedidoInfo[99];
+  char pedidoInfo[LIST_SIZE];
   PIZZA pizza;
   float valorPedido;
   int numeroDoPedido;
 
 }PEDIDO;
 
-void selecionaTamanho();
-void selecionaSabor();
-void calculaValor();
+void menu(PEDIDO* pedido, PEDIDO* listaDePedidos);
+void PedirPizza(PIZZA* pizza);
+void calculaValor(PEDIDO* pedido);
+void adicionaPedido(PEDIDO* pedido, PEDIDO* listaDePedidos);
+void listarPedidos(PEDIDO* pedido, PEDIDO* listaDePedidos);
 char* mostraPedido(PEDIDO* pedido);
-void novoPedido();
-void adicionaPedido();
-void listarPedidos();
-void Pedido();
-
-

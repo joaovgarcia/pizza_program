@@ -2,13 +2,12 @@
 #include <stdio.h>
 
 int main(){
-  
-  printf("------ Bem vindo ao Pizza Program! ------\n\n");
+ 
+  PEDIDO pedido = {.pedidoInfo = {0}};
+  PEDIDO listaDePedidos[LIST_SIZE] = {0};
 
-  Pedido();
-
-  novoPedido();
-
+  menu(&pedido, listaDePedidos);
+   
   return 0;
 
 }
