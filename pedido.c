@@ -3,13 +3,10 @@
 
 void adicionaPedido(PEDIDO* pedido, PEDIDO* listaDePedidos){
   
-  for(int i = pedido->numeroDoPedido; i <= pedido->numeroDoPedido; i++){
-    listaDePedidos[i] = *pedido;
-    continue;
-  }
+  listaDePedidos[pedido->numeroDoPedido] = *pedido;
 
   pedido->numeroDoPedido++;
-  printf("Seu pedido foi adicionado com sucesso!\n");
+  printf("Seu pedido foi adicionado com sucesso!\n\n");
 
 }
 
@@ -27,7 +24,7 @@ char* mostraPedido(PEDIDO* pedido){
 
 
   snprintf(pedido->pedidoInfo, sizeof(pedido->pedidoInfo),
-           "Pizza %s sabor %s\nValor: %.2f",
+           "Pizza %s sabor %s\nValor: %.2f\n",
            enum_tamanho[pedido->pizza.tamanho], enum_sabor[pedido->pizza.sabor], pedido->valorPedido);
 
   return pedido->pedidoInfo;
@@ -89,6 +86,7 @@ void menu(PEDIDO* pedido, PEDIDO* listaDePedidos){
     
     printf("O que deseja fazer agora?\n");
     printf("1 - Para pedir pizza.\n2 - Para listar pedidos.\n");
+    printf("Aperte (x) para sair\n\n");
     scanf(" %c", &continuar);
 
     switch(continuar){
@@ -101,9 +99,10 @@ void menu(PEDIDO* pedido, PEDIDO* listaDePedidos){
         listarPedidos(pedido, listaDePedidos);
         break;
       case 'x':
+        printf("Até mais!\n");
         break;
       default:
-        printf("Escolha uma opção!");
+        printf("Escolha uma opção!\n\n");
         break;
     }
 
