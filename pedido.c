@@ -20,59 +20,96 @@ void listarPedidos(PEDIDO* pedido, PEDIDO* listaDePedidos){
 
 char* mostraPedido(PEDIDO* pedido){
   char* enum_tamanho[3] = {"pequena", "media", "grande"};
-  char* enum_sabor[5] = {"Tradicional", "Calabresa", "Tomate Seco Rúcula", "Quatro queijos", "Filé mingnon"};
+  char* enum_sabor[10] = {"Tradicional", "Calabresa", "Tomate Seco Rúcula", "Quatro queijos", "Filé mingnon",
+    "X-Burger", "X-Tude", "X-Salada", "X-Picanha", "X-Frango"};
 
-
-  snprintf(pedido->pedidoInfo, sizeof(pedido->pedidoInfo),
+  if(pedido->produto.escolhaProduto == 1){
+    snprintf(pedido->pedidoInfo, sizeof(pedido->pedidoInfo),
+           "Lanche sabor %s\nValor: %.2f\n",
+            enum_sabor[pedido->produto.lanche.sabor], pedido->valorPedido);
+  }
+  if(pedido->produto.escolhaProduto == 2){
+    snprintf(pedido->pedidoInfo, sizeof(pedido->pedidoInfo),
            "Pizza %s sabor %s\nValor: %.2f\n",
-           enum_tamanho[pedido->pizza.tamanho], enum_sabor[pedido->pizza.sabor], pedido->valorPedido);
+            enum_tamanho[pedido->produto.pizza.tamanho], enum_sabor[pedido->produto.pizza.sabor], pedido->valorPedido);
 
+  }
   return pedido->pedidoInfo;
-
 }
 
 void calculaValor(PEDIDO* pedido){
   
   float valorTotal = 0;
 
-  if(pedido->pizza.tamanho == pequena) {
-    valorTotal+=24.59;
-  }else if (pedido->pizza.tamanho == media) {
-    valorTotal+=35.30;
-  }else{
-    valorTotal+=39.19;
+  if(pedido->produto.escolhaProduto == 1) {
+
+    switch(pedido->produto.lanche.sabor){
+
+      case 5:
+        valorTotal+=5.10;
+        break;
+      case 6:
+        valorTotal+=6.49;
+        break;
+      case 7:
+        valorTotal+=7.00;
+        break;
+      case 8:
+        valorTotal+=6.20;
+        break;
+      case 9:
+        valorTotal+=4.60;
+        break;
+      default:
+        printf("Isso não era pra ter acontecido!\n");
+        return;
+    }
+  }else if(pedido->produto.escolhaProduto == 2){
+
+    if(pedido->produto.pizza.tamanho == 0)
+      valorTotal+=5.00;
+    else if(pedido->produto.pizza.tamanho == 0)
+      valorTotal+=10.00;
+    else
+      valorTotal+=15;
+
+     switch(pedido->produto.pizza.sabor){
+
+      case 0:
+        valorTotal+=5.79;
+        break;
+      case 1:
+        valorTotal+=7.49;
+        break;
+      case 2:
+        valorTotal+=4.00;
+        break;
+      case 3:
+        valorTotal+=8.50;
+        break;
+      case 4:
+        valorTotal+=11.69;
+        break;
+      default:
+        printf("Isso não era pra ter acontecido!\n");
+        return;
   }
 
-  switch(pedido->pizza.sabor){
-
-    case 0:
-      valorTotal+=5.79;
-      break;
-    case 1:
-      valorTotal+=7.49;
-      break;
-    case 2:
-      valorTotal+=4.00;
-      break;
-    case 3:
-      valorTotal+=8.50;
-      break;
-    case 4:
-      valorTotal+=11.69;
-      break;
-    default:
-      printf("Isso não era pra ter acontecido!\n");
-      return;
   }
-
   pedido->valorPedido = valorTotal;
-
 }
 
-void PedirPizza(PIZZA* pizza){
-  
-  selecionaTamanho(pizza);
-  selecionaSabor(pizza);
+void Pedir(PRODUTO* produto){
+ 
+  selecionaProduto(produto, &produto->escolhaProduto);
+    if(produto->escolhaProduto == 2){
+      selecionaTamanho(produto);
+      selecionaSabor(produto);
+    }
+    if(produto->escolhaProduto == 1){
+      selecionaSabor(produto);
+    }
+
 }
 
 void menu(PEDIDO* pedido, PEDIDO* listaDePedidos){
@@ -85,13 +122,13 @@ void menu(PEDIDO* pedido, PEDIDO* listaDePedidos){
   do{
     
     printf("O que deseja fazer agora?\n");
-    printf("1 - Para pedir pizza.\n2 - Para listar pedidos.\n");
+    printf("1 - Para pedir.\n2 - Para listar pedidos\n");
     printf("Aperte (x) para sair\n\n");
     scanf(" %c", &continuar);
 
     switch(continuar){
       case '1':
-        PedirPizza(&pedido->pizza);
+        Pedir(&pedido->produto);
         calculaValor(pedido);
         adicionaPedido(pedido, listaDePedidos);
         break;
