@@ -3,8 +3,8 @@
 
 int selecionaProduto(PRODUTO* produto, int* escolhaProduto){
 
-  printf("O que deseja pedir hoje?\n");
-  printf("1 - Para lanche\n2 - Para pizza\n");
+  printf("Selecione uma opção abaixo\n\n");
+  printf("1 - Aperte (1) Para lanche\n2 - Aperte (2) Para pizza\n");
   
     int decisao;
 
@@ -14,7 +14,6 @@ int selecionaProduto(PRODUTO* produto, int* escolhaProduto){
 
     }while((decisao =! 1) && (decisao != 2));
   
-  printf("%d\n", *escolhaProduto);
   return *escolhaProduto;
   
 
@@ -22,7 +21,7 @@ int selecionaProduto(PRODUTO* produto, int* escolhaProduto){
 
 void selecionaTamanho(PRODUTO* produto){
 
-  printf("Então qual tamanho deseja?\n");
+  printf("Selecione o tamanho:\n");
   printf("P - Aperte (p) para pequena\nM - Aperte (m) para media\nG - Aperte (g) para grande\n\n");
 
   char tamanho;
@@ -46,7 +45,7 @@ void selecionaTamanho(PRODUTO* produto){
         break;
     
       default:
-       printf("Escolha uma opção\n");
+       printf("Escolha uma opção!\n");
        break;
     }
 
@@ -56,7 +55,7 @@ void selecionaTamanho(PRODUTO* produto){
 
 void selecionaSabor(PRODUTO* produto){
 
-  printf("E sua produto vai ser de quê?\n");
+  printf("Selecione um sabor:\n");
 
   char opcao = 0;
   

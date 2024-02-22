@@ -2,22 +2,38 @@
 #include <stdio.h>
 
 void adicionaPedido(PEDIDO* pedido, PEDIDO* listaDePedidos){
+    
+  printf("Confirmar pedido: %s?\n\n", mostraPedido(pedido));
   
-  listaDePedidos[pedido->numeroDoPedido] = *pedido;
+  char escolha = 0;
 
-  pedido->numeroDoPedido++;
+  do{
+    printf("Aperte (s) para confirmar OU aperte (n) para cancelar.\n");
+    scanf(" %c", &escolha);
+    if(escolha != 's' && escolha != 'n'){
+      printf("Selecione uma opção!\n"); 
+      escolha = 0;
+    }else if(escolha == 'n'){
+      printf("Pedido cancelado!\n\n"); 
+      return;
+    }
+  }while(escolha == 0);
   printf("Seu pedido foi adicionado com sucesso!\n\n");
 
+  listaDePedidos[pedido->numeroDoPedido] = *pedido;
+  pedido->numeroDoPedido++;
 }
 
 void listarPedidos(PEDIDO* pedido, PEDIDO* listaDePedidos){
+char sair = 0;
 
- 
+  printf("Aperte enter duas vezes para sair.\n");
+do{
   for(int i = 0; i < pedido->numeroDoPedido; i++){
     printf("Pedido: %s\n", mostraPedido(&listaDePedidos[i]));
   }
+}while (scanf(" %c", &sair) == 0); 
 }
-
 char* mostraPedido(PEDIDO* pedido){
   char* enum_tamanho[3] = {"pequena", "media", "grande"};
   char* enum_sabor[10] = {"Tradicional", "Calabresa", "Tomate Seco Rúcula", "Quatro queijos", "Filé mingnon",
@@ -114,15 +130,15 @@ void Pedir(PRODUTO* produto){
 
 void menu(PEDIDO* pedido, PEDIDO* listaDePedidos){
   
-  printf("------ Bem vindo ao Pizza Program! ------\n\n");
+  printf("------ Bem vindo! ------\n\n");
   
   char continuar;
   
 
   do{
     
-    printf("O que deseja fazer agora?\n");
-    printf("1 - Para pedir.\n2 - Para listar pedidos\n");
+    printf("Selecione uma opção:\n\n");
+    printf("1 - Aperte (1) Para pedir.\n2 - Aperte (2) Para listar pedidos\n");
     printf("Aperte (x) para sair\n\n");
     scanf(" %c", &continuar);
 
