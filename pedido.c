@@ -27,13 +27,14 @@ void adicionaPedido(PEDIDO* pedido, PEDIDO* listaDePedidos){
 void listarPedidos(PEDIDO* pedido, PEDIDO* listaDePedidos){
 char sair = 0;
 
-  printf("Aperte enter duas vezes para sair.\n");
+  printf("Aperte qualquer tecla para sair.\n");
 do{
   for(int i = 0; i < pedido->numeroDoPedido; i++){
-    printf("Pedido: %s\n", mostraPedido(&listaDePedidos[i]));
+    printf("%s",mostraPedido(&listaDePedidos[i]));
   }
 }while (scanf(" %c", &sair) == 0); 
 }
+
 char* mostraPedido(PEDIDO* pedido){
   char* enum_tamanho[3] = {"pequena", "media", "grande"};
   char* enum_sabor[10] = {"Tradicional", "Calabresa", "Tomate Seco Rúcula", "Quatro queijos", "Filé mingnon",
@@ -41,12 +42,12 @@ char* mostraPedido(PEDIDO* pedido){
 
   if(pedido->produto.escolhaProduto == 1){
     snprintf(pedido->pedidoInfo, sizeof(pedido->pedidoInfo),
-           "Lanche sabor %s\nValor: %.2f\n",
+           "Pedido lanche sabor %s\nValor: %.2f\n",
             enum_sabor[pedido->produto.lanche.sabor], pedido->valorPedido);
   }
   if(pedido->produto.escolhaProduto == 2){
     snprintf(pedido->pedidoInfo, sizeof(pedido->pedidoInfo),
-           "Pizza %s sabor %s\nValor: %.2f\n",
+           "Pedido pizza %s sabor %s\nValor: %.2f\n",
             enum_tamanho[pedido->produto.pizza.tamanho], enum_sabor[pedido->produto.pizza.sabor], pedido->valorPedido);
 
   }
